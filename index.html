@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đang quay lại PrimeGo...</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            max-width: 90%;
+            width: 350px;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .btn {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 15px 25px;
+            background-color: #007AFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        .btn:active { background-color: #0056b3; }
+        .footer-text { margin-top: 15px; font-size: 13px; color: #888; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="loader"></div>
+        <h2>Thanh toán thành công</h2>
+        <p>Hệ thống đang chuyển hướng bạn về ứng dụng PrimeGo...</p>
+
+        <a id="app-link" href="#" class="btn">MỞ ỨNG DỤNG NGAY</a>
+        
+        <p class="footer-text">Nếu không thấy ứng dụng tự mở, vui lòng nhấn vào nút phía trên.</p>
+    </div>
+
+    <script>
+        // 1. Cấu hình Domain App của bạn ở đây
+        const APP_DOMAIN = "https://dev.prime-go.net/customer/paypay-return";
+
+        // 2. Lấy toàn bộ query params (SID, FUKA...) từ URL hiện tại
+        const currentQuery = window.location.search;
+        const finalUrl = APP_DOMAIN + currentQuery;
+
+        // 3. Cập nhật link vào nút bấm
+        const linkBtn = document.getElementById('app-link');
+        linkBtn.href = finalUrl;
+
+        // 4. Cố gắng tự động chuyển hướng ngay khi vào trang
+        // Lưu ý: Chrome có thể chặn hành động này, nên nút bấm là cứu cánh duy nhất.
+        window.onload = function() {
+            setTimeout(function() {
+                window.location.href = finalUrl;
+            }, 500);
+        };
+    </script>
+
+</body>
+</html>
