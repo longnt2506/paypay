@@ -63,26 +63,30 @@
         <p class="footer-text">Nếu không thấy ứng dụng tự mở, vui lòng nhấn vào nút phía trên.</p>
     </div>
 
-    <script>
-        // 1. Cấu hình Domain App của bạn ở đây
+<script>
         const APP_DOMAIN = "https://dev.prime-go.net/customer/paypay-return";
+        const CUSTOM_SCHEME = "primego-customer://customer/paypay-return"; // Thêm dòng này
 
-        // 2. Lấy toàn bộ query params (SID, FUKA...) từ URL hiện tại
         const currentQuery = window.location.search;
-        const finalUrl = APP_DOMAIN + currentQuery;
+        const finalHttpsUrl = APP_DOMAIN + currentQuery;
+        const finalSchemeUrl = CUSTOM_SCHEME + currentQuery;
 
-        // 3. Cập nhật link vào nút bấm
+        // Gắn link HTTPS cho nút bấm (để chuẩn SEO và chuyên nghiệp)
         const linkBtn = document.getElementById('app-link');
-        linkBtn.href = finalUrl;
+        linkBtn.href = finalHttpsUrl;
 
-        // 4. Cố gắng tự động chuyển hướng ngay khi vào trang
-        // Lưu ý: Chrome có thể chặn hành động này, nên nút bấm là cứu cánh duy nhất.
         window.onload = function() {
+            // Thử tự động mở bằng Custom Scheme trước vì nó nhạy hơn trên nhiều trình duyệt
             setTimeout(function() {
-                window.location.href = finalUrl;
-            }, 500);
+                window.location.href = finalSchemeUrl;
+            }, 300);
+
+            // Nếu sau 1.5 giây vẫn ở trang web thì báo cho người dùng biết để bấm nút
+            setTimeout(function() {
+                console.log("App didn't open automatically, user needs to click.");
+            }, 1500);
         };
-    </script>
+    </script>Ï
 
 </body>
 </html>
